@@ -1,26 +1,202 @@
+@import url('https://fonts.googleapis.com/css2?family=Agbalumo&display=swap');
+
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@config "../../tailwind.config.ts";
+
+.font-agbalumo-thinner {
+  font-family: 'Agbalumo', cursive;
+  font-weight: normal; /* this won’t change much */
+  letter-spacing: 0.02em;
+  font-size: 1.1rem;
+  font-color: black;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* globals.css */
+body {
+  font-family: 'Agbalumo', cursive;
+  
+
 }
 
-@media (prefers-color-scheme: dark) {
+
+
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 142 69% 58%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 143 43% 86%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 142 76% 45%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 142 76% 45%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 143 43% 26%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 142 76% 45%;
+    
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-poppins;
+  }
+
+  .plant-link {
+    @apply relative overflow-hidden;
+  }
+
+  .plant-link::after {
+    @apply content-[''] absolute w-full h-0.5 bg-plant-leaf bottom-0 left-0 scale-x-0 origin-bottom-right transition-transform duration-300 ease-out;
+  }
+
+  .plant-link:hover::after {
+    @apply scale-x-100 origin-bottom-left;
+  }
+
+  .parallax-leaf {
+    @apply pointer-events-none opacity-40 absolute -z-10;
+    transition: transform 0.2s ease-out;
+  }
+  
+  /* New styles */
+  .nav-button {
+    @apply relative px-4 py-2 overflow-hidden rounded-lg transition-all duration-300 ease-in-out;
+  }
+  
+  .nav-button::before {
+    @apply content-[''] absolute inset-0 bg-plant-moss/10 -z-10 scale-x-0 origin-left transition-transform duration-300;
+  }
+  
+  .nav-button:hover::before {
+    @apply scale-x-100;
+  }
+  
+  .nav-button:active {
+    @apply transform scale-95;
+  }
+  
+  .plant-card {
+    @apply relative overflow-hidden rounded-xl bg-white/80 backdrop-blur-sm border border-plant-moss/20 transition-all duration-300 hover:shadow-lg hover:shadow-plant-leaf/10 hover:-translate-y-1;
+  }
 }
+
+
+
+.modal-wrapper {
+  width: 500px;
+  height: 600px;
+}
+
+.modal {
+  background: white;
+  height:100%;
+  width:100%;
+  border-radius: 15px;
+  padding: 15px;
+}
+
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-body {
+  padding-top: 10px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 25px;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+
