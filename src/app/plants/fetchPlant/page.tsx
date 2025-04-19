@@ -3,11 +3,14 @@ import { useEffect, useState } from 'react';
 import { Plant } from '@/types/Plant';
 import { useSession } from 'next-auth/react';
 
-function PlantCard({ plant, onDelete }: { plant: Plant; onDelete: (id: string) => void }) {
+function PlantCard({ plant, onDelete, accessLocation, latitude, longitude }: { plant: Plant; onDelete: (id: string) => void; accessLocation: boolean, latitude: number, longitude: number }) {
   const { status, data: session } = useSession();
   const [handover, setHandover] = useState(false);
   const [takeBack, setTakeBake] = useState(false);
   const [email, setEmail] = useState("");
+  // const [latitude, setLatitude] = useState(0);
+  // const [longitude, setLongitude] = useState(0);
+  // const [accessLocation, setAccessLocation] = useState(false);
 
   const handleSend = async () => {
     try {
@@ -69,13 +72,20 @@ function PlantCard({ plant, onDelete }: { plant: Plant; onDelete: (id: string) =
       console.log(err)
     }
   }
-
+   
+  
   const getSchedule = async() => {
     try {      
+      if (!latitude || !longitude) {
+        alert('Please allow location access to get the schedule.');
+        return;
+      }
+      const obj= await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+      const {address:  {city}}= await obj.json();
       const res = await fetch(`/api/sendReminder`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({plantId: plant._id}),
+        body: JSON.stringify({plantId: plant._id, city}),
       });
       const data = await res.json();
 
@@ -87,11 +97,17 @@ function PlantCard({ plant, onDelete }: { plant: Plant; onDelete: (id: string) =
 
   return (
     <div className="bg-white/30 backdrop-blur-lg  pb-2 rounded-2xl shadow-xl border border-white/20 text-white hover:shadow-2xl transition-all duration-300 p-6">
-       <button className='border-2 border-black-50 rounded-2xl bg-white m-4 p-4 text-black cursor-pointer'
+      
+      {accessLocation && (
+        <>
+        <button className='border-2 border-black-50 rounded-2xl bg-white m-4 p-4 text-black cursor-pointer'
         onClick={getSchedule}
       >
         Get Schedule
       </button>
+        </>
+      )}
+       
       <h2 className="text-3xl font-bold mb-4">{plant.name}</h2>
       <p className="text-gray-200 text-lg">📍 {plant.position}</p>
       <p className="text-gray-200 text-lg mb-6">🕒 Age: {plant.age ?? 'N/A'} months</p>
@@ -160,6 +176,9 @@ function PlantCard({ plant, onDelete }: { plant: Plant; onDelete: (id: string) =
 }
 
 export default function PlantList() {
+  const [latitude, setLatitude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
+  const [accessLocation, setAccessLocation] = useState(false);
   const { status, data: session } = useSession();
   const [plants, setPlants] = useState<Plant[]>([]);
 
@@ -177,6 +196,15 @@ export default function PlantList() {
   const handleDelete = (id: string) => {
     setPlants((prev) => prev.filter((plant) => plant._id !== id));
   };
+
+  const setLocation = () => {
+    navigator.geolocation.getCurrentPosition((pos) => {
+      setLatitude(pos.coords.latitude)
+      setLongitude(pos.coords.longitude)
+      setAccessLocation(true)
+      alert('📍 Location fetched successfully!')
+    })
+  }
 
   return (
     <div className="relative min-h-screen overflow-hidden">
@@ -197,14 +225,22 @@ export default function PlantList() {
             No plants added yet. Start growing your collection! 🌿
           </p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
+          <>
+          {!accessLocation && (
+            <button className='border-2 border-black-50 rounded-2xl bg-green-500 m-4 p-4 text-black cursor-pointer'
+            onClick={setLocation}
+          >
+          Get Location
+        </button>
+          )}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto relative">
            {plants
   .filter((plant) => !plant.isCommunity)
   .map((plant) => (
-    <PlantCard key={plant._id} plant={plant} onDelete={handleDelete} />
+    <PlantCard key={plant._id} plant={plant} onDelete={handleDelete} accessLocation = {accessLocation} latitude= {latitude} longitude= {longitude}/>
 ))}
           </div>
-        )}
+          </>)}
       </div>
     </div>
   );

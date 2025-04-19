@@ -8,10 +8,10 @@ import { injectEnv } from "@/utils/injectEnv"
 import {parseWaterSchedule} from '@/utils/responseParser'
 
 
-export async function getWaterRequirements(plantName:string) {
+export async function getWaterRequirements(plantName:string, city:string) {
     try {
         
-        if(!plantName) {
+        if(!plantName || !city) {
             return NextResponse.json({
                 error: 'Invalid input. Expected a valid plant name.',
             }, {status: 400});
@@ -41,13 +41,14 @@ export async function getWaterRequirements(plantName:string) {
         
           console.log("Agent created:", agent.id);  
         const task= await client.tasks.create(agent.id, taskDefinition);
-
+        console.log("Task created:", city);
         const execution= await client.executions.create(task.id, {
             input: {
                 file: base64String,
                 filename: 'KcValuesOfPlants.pdf',
                 question: question,
                 plant_name: plantName,
+                location: "Lucknow",
             }
         });
 

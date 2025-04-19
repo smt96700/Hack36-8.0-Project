@@ -25,7 +25,7 @@ main:
 
 - tool: weather
   arguments:
-    location: Mumbai
+    location: $ steps[0].input.location
 
 - prompt:
   - role: system

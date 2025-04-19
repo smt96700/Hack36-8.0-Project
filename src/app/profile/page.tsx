@@ -12,8 +12,9 @@ export default function UserInfo() {
         backgroundImage: "url('/backgroundImages/mainImg.jpeg')",
       }}
     >
+      <div className="absolute bg-black inset-0 opacity-45"></div>
       {/* Left Section — Plant-related Text */}
-      <div className="hidden md:flex justify-center items-center flex-col text-center max-w-xl space-y-4 text-white">
+      <div className="z-50 hidden md:flex justify-center items-center flex-col text-center max-w-xl space-y-4 text-white">
         <h2 className="text-4xl md:text-5xl font-serif font-bold text-white">
           "Nurturing Nature, One Plant at a Time"
         </h2>
