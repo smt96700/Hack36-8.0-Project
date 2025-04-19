@@ -1,6 +1,5 @@
 "use client";
 
-import Laff from "../../components/Leaf2";
 import { useSession } from "next-auth/react";
 
 export default function UserInfo() {
@@ -8,49 +7,48 @@ export default function UserInfo() {
 
   return (
     <div
-      className="parallax-bg inset-0 min-h-screen grid grid-cols-1 md:grid-cols-2 p-4 md:p-10 gap-4 bg-cover bg-center bg-fixed  z-0"
-      style={{ backgroundImage: "url('/backgroundImages/mainImg.jpeg')" }}
+      className="min-h-screen bg-fixed bg-center bg-cover flex items-center justify-between px-6 md:px-20 py-24 relative"
+      style={{
+        backgroundImage: "url('/backgroundImages/mainImg.jpeg')",
+      }}
     >
-      {/* Left Section — Hidden on Mobile */}
-      <div className="hidden md:flex justify-center items-center rounded-2xl h-[90vh]">
-        {/* Optional left side content */}
+      {/* Left Section — Plant-related Text */}
+      <div className="hidden md:flex justify-center items-center flex-col text-center max-w-xl space-y-4 text-white">
+        <h2 className="text-4xl md:text-5xl font-serif font-bold text-white">
+          "Nurturing Nature, One Plant at a Time"
+        </h2>
+        <p className="text-lg md:text-xl font-light">
+          At Plantelligence, we believe every plant deserves the best care, guidance, and connection.
+          <br />
+          Grow your green companions with smart solutions that ensure a healthy, thriving ecosystem.
+        </p>
       </div>
 
-      {/* Right Section — Always Visible */}
-      <div className="relative flex justify-center items-center md:rounded-2xl h-auto md:h-[80vh] overflow-visible md:overflow-hidden bg-transparent md:bg-gradient-to-br md:from-green-100 md:via-green-50 md:to-white md:shadow-xl">
+      {/* Right Section — User Info */}
+      <div className="relative z-10 backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl shadow-2xl p-8 md:p-12 max-w-xl w-full text-white space-y-8">
         
-        {/* Leaf SVG hidden on mobile */}
-        <div className="absolute inset-0 z-0 opacity-20 hidden md:block">
-          <Laff />
+        {/* Avatar */}
+        <div className="flex justify-center">
+          <img
+            src={session?.user?.image || "/default-avatar.png"}
+            alt="User"
+            className="w-28 h-28 md:w-36 md:h-36 rounded-full border-4 border-green-400 shadow-lg"
+          />
         </div>
 
-        {/* Inner Card */}
-        <div className="bg-white relative z-10 backdrop-blur-md rounded-xl p-6 md:p-8 shadow-lg max-w-md w-full">
-          <div className="flex flex-col items-center text-center gap-6">
-            
-            {/* Avatar */}
-            <img
-              src={session?.user?.image || "/default-avatar.png"}
-              alt="User"
-              className="w-28 h-28 md:w-40 md:h-40 rounded-full border-4 border-green-300 shadow-lg"
-            />
+        {/* User Name */}
+        <h1 className="text-3xl md:text-4xl font-serif font-bold text-green-300 text-center">
+          {session?.user?.name}
+        </h1>
 
-            {/* Name */}
-            <div className="w-full">
-              <h1 className="text-2xl md:text-3xl font-agbalumo text-green-800 break-words whitespace-normal">
-                {session?.user?.name}
-               
-              </h1>
-            </div>
-
-            {/* Email */}
-            <div className="w-full text-left font-bold break-words whitespace-normal">
-              <h3 className="text-xl md:text-2xl font-semibold text-gray-500">Email</h3>
-              <p className="text-lg md:text-xl text-gray-700 break-words whitespace-normal">
-                {session?.user?.email}
-              </p>
-            </div>
-          </div>
+        {/* Email Section */}
+        <div className="text-center space-y-2">
+          <h3 className="text-xl md:text-2xl text-gray-200 font-semibold">
+            Email
+          </h3>
+          <p className="text-md md:text-lg text-gray-100 break-words">
+            {session?.user?.email}
+          </p>
         </div>
       </div>
     </div>

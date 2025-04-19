@@ -5,7 +5,7 @@
 @config "../../tailwind.config.ts";
 
 .font-agbalumo-thinner {
-  font-family: 'Agbalumo', cursive;
+  font-family: 'Playfair Display', serif;
   font-weight: normal; /* this won’t change much */
   letter-spacing: 0.02em;
   font-size: 1.1rem;
@@ -14,7 +14,7 @@
 
 /* globals.css */
 body {
-  font-family: 'Agbalumo', cursive;
+  font-family: 'Playfair Display', serif;
   
 
 }

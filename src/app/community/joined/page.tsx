@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
@@ -35,52 +35,52 @@ const JoinedCommunities = () => {
   };
 
   return (
-    // <div
-    //   className="min-h-screen bg-white p-6  inset-0 bg-cover bg-center z-0"
-    //   style={{
-    //     backgroundImage: "url('/backgroundImages/mainImg.jpeg')",
-    //     willChange: "transform",
-    //   }}
-    // >
-      <div className="bg-white/50 max-w-4xl mx-auto p-6 backdrop-blur-md rounded-lg">
-        <h1 className="text-2xl font-bold mb-6 text-center text-white">Joined Communities</h1>
+    <div
+      className="min-h-screen bg-fixed bg-center bg-cover flex items-center justify-center relative px-6 md:px-24 py-24"
+      style={{
+        backgroundImage: "url('/backgroundImages/mainImg.jpeg')",
+      }}
+    >
+      <div className="relative z-10 max-w-6xl mx-auto bg-white/50 backdrop-blur-md p-8 rounded-lg">
+        <h1 className="text-3xl font-bold mb-6 text-center text-black">Joined Communities</h1>
 
-      {loading ? (
-        <p className="text-center text-gray-500">Loading communities...</p>
-      ) : communities.length === 0 ? (
-        <p className="text-center text-gray-500">You haven’t joined any communities yet.</p>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          {communities.map((community) => (
-            <div
-              key={community._id}
-              className="bg-white border border-gray-200 shadow-md rounded-xl p-5 flex flex-col justify-between"
-            >
-              <div>
-                <h2 className="text-xl font-semibold text-green-800 mb-1">
-                  {community.communityName}
-                </h2>
-                <p className="text-sm text-gray-600 mb-4">{community.description}</p>
+        {loading ? (
+          <p className="text-center text-gray-500">Loading communities...</p>
+        ) : communities.length === 0 ? (
+          <p className="text-center text-gray-500">You haven’t joined any communities yet.</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {communities.map((community) => (
+              <div
+                key={community._id}
+                className="bg-white border border-gray-200 shadow-xl rounded-xl p-6 flex flex-col justify-between transform hover:scale-105 transition-all"
+              >
+                <div>
+                  <h2 className="text-xl font-semibold text-green-800 mb-2">
+                    {community.communityName}
+                  </h2>
+                  <p className="text-sm text-gray-600 mb-6">{community.description}</p>
+                </div>
+                <div className="mt-auto">
+                  <Link
+                    href={{
+                      pathname: `/community/joined/${community._id}`,
+                      query: {
+                        name: community.communityName,
+                        desc: community.description,
+                      },
+                    }}
+                  >
+                    <button className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+                      View Community
+                    </button>
+                  </Link>
+                </div>
               </div>
-              <div className="mt-auto">
-                <Link
-                  href={{
-                    pathname: `/community/joined/${community._id}`,
-                    query: {
-                      name: community.communityName,
-                      desc: community.description,
-                    },
-                  }}
-                >
-                  <button className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">
-                    View Community
-                  </button>
-                </Link>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
