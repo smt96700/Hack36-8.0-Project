@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { Plant } from '@/types/plant';
+import { Plant } from '@/types/Plant';
 import { useSession } from 'next-auth/react';
 
 function PlantCard({ plant, onDelete }: { plant: Plant; onDelete: (id: string) => void }) {
@@ -70,8 +70,28 @@ function PlantCard({ plant, onDelete }: { plant: Plant; onDelete: (id: string) =
     }
   }
 
+  const getSchedule = async() => {
+    try {      
+      const res = await fetch(`/api/sendReminder`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({plantId: plant._id}),
+      });
+      const data = await res.json();
+
+      console.log("Schedule of water : ", data)
+    } catch(err) {
+      console.log(err);
+    }
+  }
+
   return (
     <div className="bg-white/30 backdrop-blur-lg  pb-2 rounded-2xl shadow-xl border border-white/20 text-white hover:shadow-2xl transition-all duration-300 p-6">
+       <button className='border-2 border-black-50 rounded-2xl bg-white m-4 p-4 text-black cursor-pointer'
+        onClick={getSchedule}
+      >
+        Get Schedule
+      </button>
       <h2 className="text-3xl font-bold mb-4">{plant.name}</h2>
       <p className="text-gray-200 text-lg">📍 {plant.position}</p>
       <p className="text-gray-200 text-lg mb-6">🕒 Age: {plant.age ?? 'N/A'} months</p>
@@ -82,7 +102,7 @@ function PlantCard({ plant, onDelete }: { plant: Plant; onDelete: (id: string) =
   Delete Plant
 </button>
       {plant.handover && plant.createdBy === session?.user?.id && <div>
-        <p>Plant is handovered to: {plant.nominee}</p>
+        <p>Handovered to: {plant?.nominee?.name}({plant?.nominee?.email})</p>
         <div className="mb-4">
         <label className="flex items-center space-x-2">
           <input

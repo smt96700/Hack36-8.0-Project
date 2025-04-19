@@ -54,10 +54,10 @@ export default function gardenplannerpage() {
     const handleSubmit = async() => {
       const res = await fetch(`/api/plants?userId=${session?.user?.id}`);
           const data = await res.json();
-          console.log(data)
+          //console.log(data)
 
           const userPlants = data.map((item : Plant) => {
-            console.log("Item name", item.name)
+            //console.log("Item name", item.name)
             return item.name;
           });
           console.log(userPlants)
@@ -78,7 +78,7 @@ export default function gardenplannerpage() {
   return (
     <div className="relative">
       <button
-      className="absolute z-100 cursor-pointer p-4 bg-green-700 rounded-lg m-4 text-white w-24 hover:bg-green-500"
+      className="absolute z-20 cursor-pointer p-4 bg-green-700 rounded-lg m-4 text-white w-24 hover:bg-green-500"
       onClick={handleSubmit}
       >Fetch</button>
       {
