@@ -9,11 +9,11 @@ import { getWaterRequirements } from '@/utils/getWaterRequirements';
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const { plantId } = body;
-        console.log("plantId", plantId)
+        const { plantId, city } = body;
+        console.log("plantId", plantId, "city", city);
 
-        if (!plantId) {
-            return NextResponse.json({ error: 'plantId is required' }, { status: 400 });
+        if (!plantId || !city) {
+            return NextResponse.json({ error: 'plantId is required or city is required' }, { status: 400 });
         }
         await connectMongoDB();
         const plant = await getPlantData(plantId);
@@ -21,15 +21,15 @@ export async function POST(req: Request) {
         if (!plant) {
             return NextResponse.json({ error: 'Plant not found' }, { status: 404 });
         }
-        const water_requirements:any= await getWaterRequirements(plant.name);
+        const water_requirements:any= await getWaterRequirements(plant.name, city);
         console.log("Water requirements of plant: ",water_requirements)
         let dryTime;
         if(!water_requirements) {
             return NextResponse.json({ error: 'water_requirement fetch error' });
          
         }
-        // dryTime= water_requirements['Dry time calculation']
-        dryTime= 1;
+        dryTime= water_requirements['Dry time calculation']
+        // dryTime= 1;
         const lastWatered = plant.lastWatered;
         
         if (!lastWatered || !dryTime) {
@@ -39,7 +39,7 @@ export async function POST(req: Request) {
 
         const nextWateringTime = new Date(lastWatered);
        
-        nextWateringTime.setMinutes(nextWateringTime.getMinutes() + dryTime); 
+        nextWateringTime.setHours(nextWateringTime.getHours() + dryTime); 
 
         await scheduleReminder(nextWateringTime, plant.createdBy._id, plant.name, plant._id);
 
