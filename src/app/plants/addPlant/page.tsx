@@ -75,7 +75,7 @@ export default function AddPlantForm() {
           className="bg-white/10 backdrop-blur-lg p-8 md:p-12 rounded-3xl shadow-2xl max-w-lg w-full border border-white/20"
         >
           <h2 className="text-3xl md:text-3xl font-extrabold mb-8 text-center text-white drop-shadow-lg">
-            🌿 Add Your Plant12
+            🌿 Add Your Plant
           </h2>
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Plant Name Input */}

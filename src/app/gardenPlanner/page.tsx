@@ -3,7 +3,7 @@ import { GetServerSideProps } from "next";
 import PlantGrid from "@/components/PlantGrid";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { Plant } from "@/types/Plant";
+import { Plant } from "@/types/plant";
 
 const plantAdjacency: Record<string, string[]> = {
   a: ["b"],
@@ -78,7 +78,7 @@ export default function gardenplannerpage() {
   return (
     <div className="relative">
       <button
-      className="absolute z-100 cursor-pointer p-4 bg-green-700 rounded-lg m-4 text-white w-24 hover:bg-green-500"
+      className="absolute z-20 cursor-pointer p-4 bg-green-700 rounded-lg m-4 text-white w-24 hover:bg-green-500"
       onClick={handleSubmit}
       >Fetch</button>
       {
