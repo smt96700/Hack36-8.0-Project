@@ -1,3 +1,4 @@
+import { Lasso } from 'lucide-react';
 import mongoose, {models, model, Schema} from 'mongoose';
 
 const PlantSchema = new Schema({
@@ -32,6 +33,10 @@ const PlantSchema = new Schema({
     nominee: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
+    },
+    lastWatered: {
+        type: Date,
+        default: Date.now, 
     },
 });
 

@@ -1,0 +1,67 @@
+name: LlamaParse Task
+
+tools:
+- name: llama_parse
+  type: integration
+  integration:
+    provider: llama_parse
+    method: parse
+    setup:
+      llamaparse_api_key: ${LLAMAPARSE_API_KEY}
+
+- name: weather
+  type: integration
+  integration:
+    provider: weather
+    setup:
+      openweathermap_api_key: ${OPENWEATHERMAP_API_KEY}
+
+main:
+- tool: llama_parse
+  arguments:
+    file: $ steps[0].input.file
+    filename: $ steps[0].input.filename 
+    base64: true
+
+- tool: weather
+  arguments:
+    location: Mumbai
+
+- prompt:
+  - role: system
+    content: >-
+      You are a helpful assistant that decides whether a plant should be watered or not based on the plant's water needs, weather conditions, and time since last watering.
+      Plant Name: "{steps[0].input.plant_name}"
+      Use the following logic:
+
+      1. Evaporation Risk Function:
+      The evaporationRisk function calculates the evaporation risk based on four factors: temperature, wind speed, cloud cover, and humidity. It increases the risk by 1 if the temperature exceeds 30°C, or by 0.5 if it’s above 25°C but not more than 30°C. The risk also increases by 1 if the wind speed is greater than 4 meters per second and if the cloud cover is below 20%, indicating clear skies. On the other hand, high humidity (over 80%) reduces the risk by 0.5, while low humidity (below 40%) increases it by 0.5. The function then returns the cumulative risk score based on these conditions.
+
+      2. ShouldNotify Function:
+      The shouldNotify function determines whether a plant should be notified to be watered based on several factors: temperature, wind speed, cloud cover, humidity, rainfall, how many hours have passed since the last watering, and a plant-specific factor. First, it calculates the evaporation risk using the evaporationRisk function, which takes into account temperature, wind speed, cloud cover, and humidity. Then, it calculates the dry time, which is influenced by the plant's specific factor (the plantFactor), the rainfall amount (rain_mm), and the evaporation risk. The dry time formula takes into account that plants with a higher plantFactor dry out slower, and rain and evaporation reduce the drying time. If the number of hours since the last watering (last_watered_hrs) is greater than or equal to the calculated dry time, the function returns true, indicating the plant should be watered, otherwise false.
+
+      3. Plant Factor Mapping:
+      The plant's water requirement is categorized into three levels based on its Kc (crop coefficient). If the plant has low water needs (Kc ≈ 0.8), the plantFactor is set to 0.8. For medium water needs (Kc ≈ 1.0), the plantFactor is set to 1.0. If the plant has high water needs (Kc ≈ 1.2), the plantFactor is set to 1.2. The plantFactor influences the calculation of the dry time and, consequently, when the plant should be watered.
+
+      Based on the provided plant data, weather conditions and time since last watering, compute:
+      - Evaporation risk
+      - Plant factor
+      - Dry time
+      - Whether the plant should be watered now
+  - role: user
+    content: >-
+      $ f'''The weather and plant information is as follows:
+
+      "{steps[0].output}"
+
+      For determining the plant factor (LOW, MEDIUM, HIGH, or other values), refer to:
+      "{steps[1].output}"
+
+      Determine the following and return *only* a object with exactly these keys, enclosed in triple quotes:
+      - Evaporation risk score  
+      - Plant factor used  
+      - Dry time calculation  
+      Do not include explanations, summaries, or any additional text. The output must be an object inside triple quotes.'''
+
+
+
