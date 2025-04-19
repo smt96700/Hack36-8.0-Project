@@ -138,7 +138,7 @@ const Navbar: React.FC = () => {
               </button>
             )}
 
-            <Link href="/gardenplanner" className="plant-link flex items-center space-x-2 text-plant-forest hover:text-plant-leaf transition-colors duration-300">
+            <Link href="/gardenPlanner" className="plant-link flex items-center space-x-2 text-plant-forest hover:text-plant-leaf transition-colors duration-300">
               <TreePine className="h-5 w-5" />
               <span>Garden Planner</span>
             </Link>

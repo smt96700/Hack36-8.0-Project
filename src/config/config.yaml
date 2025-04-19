@@ -1,0 +1,29 @@
+name: LlamaParse Task
+
+tools:
+- name: llama_parse
+  type: integration
+  integration:
+    provider: llama_parse
+    method: parse
+    setup:
+      llamaparse_api_key: ${LLAMAPARSE_API_KEY}
+
+main:
+- tool: llama_parse
+  arguments:
+    file: $ steps[0].input.file
+    filename: $ steps[0].input.filename 
+    base64: true
+- prompt:
+  - role: system
+    content: >-
+      You are a helpful assistant that answers questions based on the contents of a document.
+  - role: user
+    content: >-
+      $ f'''The document content is as follows:
+      "{ steps[0].output }"
+      
+      Based on this document, answer the following question:
+      "{ steps[0].input.question }"
+      '''
