@@ -28,7 +28,8 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: 'water_requirement fetch error' });
          
         }
-        dryTime= water_requirements['Dry time calculation']
+        // dryTime= water_requirements['Dry time calculation']
+        dryTime= 1;
         const lastWatered = plant.lastWatered;
         
         if (!lastWatered || !dryTime) {
@@ -38,9 +39,9 @@ export async function POST(req: Request) {
 
         const nextWateringTime = new Date(lastWatered);
        
-        nextWateringTime.setHours(nextWateringTime.getHours() + dryTime); 
+        nextWateringTime.setMinutes(nextWateringTime.getMinutes() + dryTime); 
 
-        await scheduleReminder(nextWateringTime, plant.createdBy._id, plant._id);
+        await scheduleReminder(nextWateringTime, plant.createdBy._id, plant.name, plant._id);
 
         return NextResponse.json({ message: 'Reminder scheduled successfully' }, { status: 200 });
     } catch (error) {
