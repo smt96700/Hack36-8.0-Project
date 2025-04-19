@@ -22,7 +22,11 @@ export async function GET(req: NextRequest) {
             return NextResponse.json({ message: 'User ID missing' }, { status: 400 });
         }
 
-        const requests = await Request.find({to : userId}).sort({dateAdded: 1});
+        const requests = await Request.find({to : userId}).sort({dateAdded: 1}).populate([
+            { path: 'from', select: 'name email' },
+            { path: 'to', select: 'name email' },
+            { path: 'plantId', select: 'name position' }
+          ]);
         return NextResponse.json(requests, { status: 200 });
     } catch (error) {
         console.log(error);
