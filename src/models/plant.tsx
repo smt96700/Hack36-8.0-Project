@@ -38,6 +38,10 @@ const PlantSchema = new Schema({
         type: Date,
         default: Date.now, 
     },
+    waterToken: {
+        type: String,
+        default: null,
+    },
 });
 
 const Plant = models.Plant || model("Plant", PlantSchema);

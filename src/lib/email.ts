@@ -1,5 +1,8 @@
 import nodemailer from 'nodemailer';
 import User from '@/models/user';
+import {nanoid} from 'nanoid';
+import Plant from '@/models/plant';
+
 
 const transporter = nodemailer.createTransport({
   service: 'gmail', 
@@ -23,6 +26,12 @@ export const getUserEmail = async (userId: string): Promise<string | null> => {
 export const sendEmailReminder = async (userId: string, plantName: string, plantId: string) => {
   // Get the user's email address from your database using userId
   const userEmail = await getUserEmail(userId); // Implement this function to fetch email from DB
+  const plant= await Plant.findById(plantId);
+ 
+  const token= nanoid();
+  plant.waterToken= token;
+  await plant.save();
+  console.log("email token: ", token);
   if (!userEmail) {
     console.error(`No email found for user ID: ${userId}`);
     return;
@@ -40,7 +49,7 @@ export const sendEmailReminder = async (userId: string, plantName: string, plant
           <p>This is a gentle reminder to water your beloved plant: <strong>${plantName}</strong>.</p>
           <p>Keeping it hydrated helps it grow and thrive. 🌿</p>
           <div style="text-align: center; margin: 30px 0;">
-            <a href="${process.env.BASE_URL}/api/waterPlant/${plantId}" style="background-color: #4CAF50; color: white; padding: 14px 25px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; border-radius: 8px;">
+            <a href="${process.env.BASE_URL}/api/waterPlant/${plantId}?token=${token}" style="background-color: #4CAF50; color: white; padding: 14px 25px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; border-radius: 8px;">
               💧 Water the Plant
             </a>
           </div>

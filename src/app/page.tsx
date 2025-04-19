@@ -10,7 +10,7 @@ export default function Home() {
         backgroundImage: "url('/backgroundImages/mainImg.jpeg')",
       }}
     >
-      <div className="absolute inset-0 bg-black opacity-50"></div>
+      <div className="absolute inset-0 bg-black opacity-45"></div>
       {/* Blur Box */}
       <div className="backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl p-10 md:p-16 max-w-3xl text-center text-white shadow-2xl space-y-6">
         <h1 className="text-4xl md:text-6xl font-serif font-bold text-green-300">
