@@ -9,6 +9,7 @@ interface RegisterUserBody {
 }
 
 export async function POST(request: Request) {
+  await connectMongoDB();
   // Type the request body to match RegisterUserBody
   const { name, email }: RegisterUserBody = await request.json();
 

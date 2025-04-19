@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { Account, User as NextAuthUser } from "next-auth";
 import { connectMongoDB } from "@/lib/mongoose";
-import UserModel from "../../../../model/user"; // renamed to avoid conflict
+import UserModel from "../../../../models/user"; // renamed to avoid conflict
 
 interface SignInCallbackParams {
   user: NextAuthUser;

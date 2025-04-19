@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectMongoDB } from '@/lib/mongoose';
-import Plant from '@/model/plant';
+import Plant from '@/models/plant';
 import { responseCookiesToRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies';
 
 export async function POST(req: NextRequest) {

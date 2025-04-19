@@ -7,7 +7,7 @@ import { Plant } from "@/types/plant";
 
 export default function AddPlantForm() {
   const { status, data: session } = useSession();
-  const [plant, setPlant] = useState<Plant>({
+  const [plant, setPlant] = useState<Partial<Plant>>({
     name: '',
     age: 0,
     position: 'Indoor',
