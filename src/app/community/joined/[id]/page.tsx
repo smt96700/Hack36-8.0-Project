@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-
+import {socket} from '@/socket';
 export default function CommunityDetailsPage() {
   const searchParams = useSearchParams();
   const name = searchParams.get('name');
@@ -16,6 +16,8 @@ export default function CommunityDetailsPage() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [posts, setPosts] = useState<any[]>([]);
+  const [isConnected, setIsConnected] = useState(false);
+  const [transport, setTransport] = useState("N/A");
 
   const fetchPosts = async () => {
     try {
@@ -34,6 +36,7 @@ export default function CommunityDetailsPage() {
       fetchPosts();
     }
   }, [communityId]);
+
 
   const handleSubmit = async () => {
     if (!postContent.trim()) return;
@@ -54,9 +57,19 @@ export default function CommunityDetailsPage() {
       });
 
       const data = await res.json();
+      console.log('Post created:', data.newPost);
+      
       if (res.ok) {
         alert('✅ Post created successfully!');
-        await fetchPosts();
+        console.log("Post created successfully:");
+        if (socket && socket.connected) {
+          await fetchPosts();
+          socket.emit('sendPost', data.newPost);
+        } else {
+          console.warn("Socket not connected, delaying emit...");
+        }
+        console.log("Post emitted successfully:", data.newPost);
+        
       } else {
         setMessage('❌ Failed to create post.');
       }
@@ -90,6 +103,54 @@ export default function CommunityDetailsPage() {
       console.error('Error adding reaction:', error);
     }
   };
+
+  useEffect(() => {
+      if (socket && socket.connected) {
+        onConnect();
+      }
+  
+      function onConnect() {
+        setIsConnected(true);
+        if (socket && socket.io && socket.io.engine) {
+          setTransport(socket.io.engine.transport.name);
+        }
+  
+        if (socket && socket.io && socket.io.engine) {
+          socket.io.engine.on("upgrade", (transport) => {
+            setTransport(transport.name);
+          });
+        }
+      }
+  
+      function onDisconnect() {
+        setIsConnected(false);
+        setTransport("N/A");
+      }
+      
+      function onMessage2(data:any) {
+        console.log("Message from server:", data); 
+      }
+      
+      function onReceivePost(data:any) {
+        console.log("Received post from server:", data);
+      }
+  
+      socket?.on("connect", onConnect);
+      socket?.on("disconnect", onDisconnect);
+      // socket?.emit('message', 'Sync Process is Completed');
+      // socket?.on('message2', onMessage2);
+      // socket.emit('sendPost', 'Hello Worl');
+      socket?.on('receivePost', async (data:any)=> {
+        console.log("Received post from server:", data);
+        await fetchPosts();
+      });
+
+      return () => {
+        socket?.off("connect", onConnect);
+        socket?.off("disconnect", onDisconnect);
+      };
+    }, []);
+  
 
   return (
     <div className="p-6 max-w-4xl mx-auto bg-white rounded-lg shadow-lg">
