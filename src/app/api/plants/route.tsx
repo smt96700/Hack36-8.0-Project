@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
         { createdBy: userId },
         { nominee: userId }
       ]
-    }).sort({ dateAdded: -1 });
+    }).sort({ dateAdded: -1 }).populate({path: 'nominee', select:'name email'});
     return NextResponse.json(plants);
   } catch(err) {
     return NextResponse.json({message: 'Error fetching plants'}, {status: 400})

@@ -118,7 +118,7 @@ function PlantCard({ plant, onDelete, accessLocation, latitude, longitude }: { p
   Delete Plant
 </button>
       {plant.handover && plant.createdBy === session?.user?.id && <div>
-        <p>Plant is handovered to: {plant.nominee}</p>
+        <p>Handovered to: {plant?.nominee?.name}({plant?.nominee?.email})</p>
         <div className="mb-4">
         <label className="flex items-center space-x-2">
           <input

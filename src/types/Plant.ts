@@ -5,7 +5,10 @@ export interface Plant {
     age: number;
     position: '' | 'Indoor' | 'Terrace' | 'Balcony' | 'Garden';
     handover: boolean;
-    nominee?: string;
+    nominee?: {
+        name:string;
+        email:string;
+    };
     isCommunity:boolean;
     createdBy: string;
 

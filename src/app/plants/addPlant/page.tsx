@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 
 import { useSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plant } from "@/types/plant";
+import { Plant } from "@/types/Plant";
 
 export default function AddPlantForm() {
   const { status, data: session } = useSession();

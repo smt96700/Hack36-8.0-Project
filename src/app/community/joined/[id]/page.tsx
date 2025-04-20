@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+
 import {socket} from '@/socket';
 export default function CommunityDetailsPage() {
   const searchParams = useSearchParams();

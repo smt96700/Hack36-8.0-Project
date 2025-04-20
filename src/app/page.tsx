@@ -1,9 +1,7 @@
 "use client";
 import Image from "next/image";
 import backgroundImg from '../../public/backgroundImages/mainImg.jpeg';
-import { useEffect, useState } from "react";
-
-
+import Head from "next/head";
 export default function Home() {
 
   return (
@@ -20,16 +18,16 @@ export default function Home() {
           Welcome To <span className="text-green-400">Plantelligence</span>
         </h1>
 
-        <p className="text-lg md:text-xl font-light text-gray-200">
-          “Smart care for your green companions.” <br />
-          “Grow smart. Connect naturally.” <br />
-          “Plant care meets intelligence.”
-        </p>
+            <p className="text-lg md:text-xl font-light text-gray-200">
+              “Smart care for your green companions.” <br />
+              “Grow smart. Connect naturally.” <br />
+              “Plant care meets intelligence.”
+            </p>
 
-        {/* <button className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-full shadow-lg transition-all duration-300">
+            {/* <button className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-full shadow-lg transition-all duration-300">
           Explore Now
         </button> */}
-      </div>
+        </div>
     </div>
   );
 }

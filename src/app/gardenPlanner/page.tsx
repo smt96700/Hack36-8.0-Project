@@ -3,7 +3,7 @@ import { GetServerSideProps } from "next";
 import PlantGrid from "@/components/PlantGrid";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { Plant } from "@/types/plant";
+import { Plant } from "@/types/Plant";
 
 const plantAdjacency: Record<string, string[]> = {
   a: ["b"],
@@ -54,10 +54,10 @@ export default function gardenplannerpage() {
     const handleSubmit = async() => {
       const res = await fetch(`/api/plants?userId=${session?.user?.id}`);
           const data = await res.json();
-          console.log(data)
+          //console.log(data)
 
           const userPlants = data.map((item : Plant) => {
-            console.log("Item name", item.name)
+            //console.log("Item name", item.name)
             return item.name;
           });
           console.log(userPlants)
