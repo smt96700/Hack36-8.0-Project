@@ -1,3 +1,17 @@
+![App Screenshot](hackLogo.png)
+---
+## Team Name : Do_Nothing
+### Leader : Sumit Verma
+### Member 1 : Solanki Nirmal Bhikhabhai
+### Member 2 : Somesh Gupta
+### Member 3 : Sumit Chaurasiya
+---
+
+[Video Link](https://drive.google.com/file/d/1xA9zksBIGf_od1YSXwcZpNFatpv3zFXz/view?usp=sharing) | [Presentation Link](https://docs.google.com/presentation/d/1rnxP-z77MgNRZpOacMvDxnYQLg2giyFK/edit?usp=sharing&ouid=101641311710268927329&rtpof=true&sd=true)
+
+---
+
+
 # Plantelligence: Nurture Your Greens, Grow a Greener Tomorrow
 
 ##  ~ Vision
@@ -143,6 +157,9 @@ Let's build a greener, more connected tomorrow—one plant at a time.
 If you believe sustainability begins at home, Plantelligence is where it starts.
 
 *We’d love your feedback and support! Let’s grow together.*
+
+![App Screenshot](hackLogo.png)
+
 
 
 
