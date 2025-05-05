@@ -7,7 +7,7 @@
 ### Member 3 : Sumit Chaurasiya
 ---
 
-[Video Link](https://drive.google.com/file/d/1xA9zksBIGf_od1YSXwcZpNFatpv3zFXz/view?usp=sharing) | [Presentation Link](https://docs.google.com/presentation/d/1rnxP-z77MgNRZpOacMvDxnYQLg2giyFK/edit?usp=sharing&ouid=101641311710268927329&rtpof=true&sd=true)
+[Video Link](https://youtu.be/xXT_s904Ni4?si=rEgIbnRWeCsEBbFG) | [Presentation Link](https://docs.google.com/presentation/d/1rnxP-z77MgNRZpOacMvDxnYQLg2giyFK/edit?usp=sharing&ouid=101641311710268927329&rtpof=true&sd=true)
 
 ---
 
